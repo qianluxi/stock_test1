@@ -1,0 +1,62 @@
+F:\PyProjects\stock\akshare/
+│
+├── db/
+│   ├── __init__.py
+│   ├── schema.py
+│   └── database.py
+│
+├── data/
+│   ├── __init__.py
+│   └── fetch_daily.py
+│
+├── factors/
+│   ├── __init__.py
+│   └── indicators.py
+│
+├── ml/
+│   ├── __init__.py
+│   └── train.py
+│
+├── test_db.py
+├── main.py
+└── requirements.txt
+
+
+数据层 (Database)
+   └─ daily_prices: 历史行情、技术指标
+   └─ factors/indicators: 衍生指标、特征计算
+
+特征提取层 (Feature Engineering)
+   └─ 从已选股票提取技术特征/统计特征
+   └─ 可增加财务数据、行业数据、成交量/波动率等
+
+模型训练层 (ML/Learning)
+   └─ 训练集：选定股票的历史数据
+   └─ 模型：随机森林 / XGBoost / LSTM / Transformer
+   └─ 输出：特征权重、预测模型、涨跌概率或因子得分
+
+应用层 (Stock Scoring & 筛选)
+   └─ 输入：未训练股票或全市场股票的特征
+   └─ 用训练好的模型评分或预测
+   └─ 输出：股票排序 / 买卖信号 / 风控提示
+
+决策辅助层 (可选 LLM)
+   └─ 输入：模型评分 + 技术指标 + 财务摘要
+   └─ 输出：解释、风险提示、策略建议
+
+akshare/
+├── data/
+│   ├── fetch_daily.py         # 数据拉取
+├── db/
+│   ├── database.py
+│   ├── schema.py
+│   └── cleanup.py
+├── factors/
+│   ├── indicators.py
+├── ml/
+│   ├── train.py               # 多股票训练 + 模型保存
+│   └── models/
+├── signals/
+│   ├── signal_generator.py
+├── main.py                    # 调度脚本：拉取 → 特征 → 训练 → 应用
+

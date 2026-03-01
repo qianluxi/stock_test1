@@ -6,10 +6,11 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 from features.build_features import build_features
+from ml.dataset import build_market_dataset
+from stock_pool import STOCK_POOL
 
 MODEL_DIR = "ml/models"
 os.makedirs(MODEL_DIR, exist_ok=True)
-
 
 FEATURE_COLS = [
     "ma5", "ma10", "ma20",
@@ -18,21 +19,6 @@ FEATURE_COLS = [
     "ret_1",
 ]
 
-
-def build_market_dataset(stock_pool: list) -> pd.DataFrame:
-    """拼接多股票训练集"""
-    dfs = []
-    for s in stock_pool:
-        try:
-            df = build_features(s)
-            dfs.append(df)
-        except Exception as e:
-            print(f"[{s}] 跳过: {e}")
-
-    df_all = pd.concat(dfs, ignore_index=True)
-    return df_all
-
-
 def time_split(df: pd.DataFrame, split_date: str):
     """按时间切分（防未来泄漏）"""
     train_df = df[df["trade_date"] < split_date]
@@ -40,16 +26,24 @@ def time_split(df: pd.DataFrame, split_date: str):
     return train_df, test_df
 
 
-def train_global_model(stock_pool: list, split_date="2025-01-01"):
-    df_all = build_market_dataset(stock_pool)
+def train_global_model(stock_codes: list, split_date="2025-01-01"):
+    df_all = build_market_dataset(stock_codes)
 
     train_df, test_df = time_split(df_all, split_date)
+
+    missing = set(FEATURE_COLS) - set(train_df.columns)
+    if missing:
+        raise ValueError(f"缺失特征列: {missing}")
 
     X_train = train_df[FEATURE_COLS]
     y_train = train_df["label"]
 
     X_test = test_df[FEATURE_COLS]
     y_test = test_df["label"]
+
+    print(
+        f"[GLOBAL] 训练样本数: {len(train_df)} | 验证样本数: {len(test_df)}"
+    )
 
     model = RandomForestClassifier(
         n_estimators=300,
@@ -72,10 +66,4 @@ def train_global_model(stock_pool: list, split_date="2025-01-01"):
 
 
 if __name__ == "__main__":
-    stock_pool = [
-        "001229",
-        "002264",
-        "000881",
-    ]
-
-    train_global_model(stock_pool)
+    train_global_model(STOCK_POOL)

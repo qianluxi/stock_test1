@@ -1,0 +1,37 @@
+[
+  {
+    "stock": "000617",
+    "reason": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.000617&beg=19700101&end=20500101 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
+    "date": "2026-02-11 22:45:02"
+  },
+  {
+    "stock": "000625",
+    "reason": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.000625&beg=19700101&end=20500101 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
+    "date": "2026-02-11 22:45:50"
+  },
+  {
+    "stock": "000001",
+    "reason": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "date": "2026-02-11 23:34:36"
+  },
+  {
+    "stock": "000002",
+    "reason": "HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf59%2Cf60%2Cf61%2Cf116&ut=7eea3edcaed734bea9cbfc24409ed989&klt=101&fqt=1&secid=0.000002&beg=2026-02-12&end=20500101 (Caused by ProxyError('Unable to connect to proxy', RemoteDisconnected('Remote end closed connection without response')))",
+    "date": "2026-02-12 09:26:21"
+  },
+  {
+    "stock": "000001",
+    "reason": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "date": "2026-02-12 09:37:22"
+  },
+  {
+    "stock": "000002",
+    "reason": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "date": "2026-02-13 20:25:12"
+  },
+  {
+    "stock": "000063",
+    "reason": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "date": "2026-02-13 20:29:52"
+  }
+]

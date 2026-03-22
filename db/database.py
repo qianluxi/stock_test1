@@ -62,9 +62,28 @@ class SQLiteDB:
 
     def init_db(self):
         """建表 + 索引"""
-        self.conn.executescript(ALL_SCHEMA_SQL)
+
+        cursor = self.conn.cursor()
+
+        for sql in ALL_SCHEMA_SQL:
+            cursor.execute(sql)
+
         self.conn.commit()
+
         print(f"[SQLiteDB] 数据库已初始化: {self.db_path}")
+
+    def load_data(self, start_date: str, end_date: str):
+
+        sql = """
+            SELECT *
+            FROM daily_prices
+            WHERE trade_date BETWEEN ? AND ?
+            ORDER BY trade_date, symbol
+        """
+
+        df = self.query(sql, (start_date, end_date))
+
+        return df
 
     def create_sync_log_table(self):
         """创建数据同步日志表"""

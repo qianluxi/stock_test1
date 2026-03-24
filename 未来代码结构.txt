@@ -1,0 +1,32 @@
+quant_system/
+│
+├── main.py
+├── config.py
+│
+├── data/
+│   ├── data_loader_tushare.py
+│   ├── fetch_daily_tushare.py
+│   └── market_data.py
+│
+├── pool/
+│   └── generate_stock_pool.py
+│
+├── factors/
+│   ├── technical.py
+│   ├── volume.py
+│   └── volatility.py
+│
+├── strategy/
+│   ├── momentum.py
+│   ├── mean_reversion.py
+│   └── breakout.py
+│
+├── backtest/
+│   └── engine.py
+│
+├── db/
+│   ├── database.py
+│   └── schema.py
+│
+└── utils/
+    └── network.py

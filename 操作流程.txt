@@ -1,0 +1,14 @@
+1  generate_stock_pool.py（根据需要生成）
+python -m tools.generate_stock_pool
+
+2  data_loader_tushare.py
+python -m data.data_loader_tushare
+
+3  fetch_daily_tushare.py
+python -m data.fetch_daily_tushare
+
+4 factor_pipeline.py
+python -m pipeline.factor_pipeline
+
+5 alpha模块
+python -m alpha.pipeline

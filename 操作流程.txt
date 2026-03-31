@@ -1,0 +1,17 @@
+1  data_loader_tushare.py（下载股票基本面，市值，行业板块等信息）
+python -m data.data_loader_tushare
+
+2  generate_stock_pool.py（根据需要生成某行业的股票池）
+python -m tools.generate_stock_pool
+
+3  fetch_daily_tushare.py（股票历史 K 线（日线）数据）
+python -m data.fetch_daily_tushare
+
+4 industry_loader.py重新加载行业数据，功能基本同 data_loader_tushare.py，但需要这一步形成stock_info 表
+python -m db.industry_loader
+
+5 factor_pipeline.py
+python -m pipeline.factor_pipeline
+
+6 alpha模块
+python -m alpha.pipeline

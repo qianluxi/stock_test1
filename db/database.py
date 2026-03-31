@@ -15,8 +15,11 @@ from db.schema import ALL_SCHEMA_SQL
 
 
 class SQLiteDB:
-    def __init__(self, db_path="stock.db"):
-        self.db_path = db_path
+    def __init__(self, db_path=None):
+        import os
+        # 强制定位到：tushare1/db/stock.db
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.db_path = os.path.join(base_dir, "db", "stock.db")
         self.conn = None
 
     def connect(self):
@@ -62,9 +65,37 @@ class SQLiteDB:
 
     def init_db(self):
         """建表 + 索引"""
-        self.conn.executescript(ALL_SCHEMA_SQL)
+
+        cursor = self.conn.cursor()
+
+        for sql in ALL_SCHEMA_SQL:
+            cursor.execute(sql)
+
         self.conn.commit()
+
         print(f"[SQLiteDB] 数据库已初始化: {self.db_path}")
+
+    def load_data(self, start_date: str, end_date: str):
+        sql = """
+            SELECT 
+                -- 明确指定字段，防止覆盖，保证 close_adj 一定存在
+                p.symbol,
+                p.trade_date,
+                p.open_adj,
+                p.high_adj,
+                p.low_adj,
+                p.close_adj,  # 显式写出，永不丢失
+                p.volume,
+                p.amount,
+                b.industry
+            FROM daily_prices p
+            LEFT JOIN stock_basic b
+            ON substr(p.symbol, 1, 6) = b.symbol
+            WHERE p.trade_date BETWEEN ? AND ?
+            ORDER BY p.trade_date, p.symbol
+        """
+        df = self.query(sql, (start_date, end_date))
+        return df
 
     def create_sync_log_table(self):
         """创建数据同步日志表"""
@@ -78,3 +109,39 @@ class SQLiteDB:
         """
         self.conn.execute(sql)
         self.conn.commit()
+
+    def load_features(self, start_date, end_date):
+
+        sql = """
+        SELECT *
+        FROM feature_values
+        WHERE trade_date BETWEEN ? AND ?
+        ORDER BY trade_date
+        """
+
+        df = pd.read_sql(sql, self.conn, params=(start_date, end_date))
+
+        return df
+    
+    def load_prices(self, start_date, end_date):
+
+        sql = """
+        SELECT symbol, trade_date, close_adj
+        FROM daily_prices
+        WHERE trade_date BETWEEN ? AND ?
+        """
+
+        df = pd.read_sql(sql, self.conn, params=(start_date, end_date))
+
+        return df
+    
+    def load_industry(self):
+
+        sql = """
+        SELECT symbol, industry
+        FROM stock_info
+        """
+
+        df = pd.read_sql(sql, self.conn)
+
+        return df
